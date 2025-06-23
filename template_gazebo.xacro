@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+<robot name="{{robot_name}}" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <property name="pi" value="3.14159265359"/>
+
+  <material name="Red">
+    <color rgba="1.0 0.0 0.0 1.0"/>
+  </material>
+  <material name="Green">
+    <color rgba="0.0 1.0 0.0 1.0"/>
+  </material>
+  <material name="Blue">
+    <color rgba="0.0 0.0 1.0 1.0"/>
+  </material>
+  
+{% for sample in sample_list %}
+{% if 'world' in sample.link %}
+  <!-- {{sample.link}} -->
+  <link name="{{sample.link}}"/>
+{% elif sample.children_num < 2 %}
+  <!-- {{sample.link}} -->
+  <link name="{{sample.link}}">
+    <collision>
+      <origin rpy="{{sample.link_rpy}}" xyz="{{sample.link_xyz}}"/>
+      <geometry>
+        <{{sample.link_size}}/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin rpy="{{sample.link_rpy}}" xyz="{{sample.link_xyz}}"/>
+      <geometry>
+        <{{sample.link_size}}/>
+      </geometry>
+      <material name="{{sample.link_color}}"/>
+    </visual>
+  {% if sample.link_mass != '0' %}
+    <inertial>
+      <origin rpy="{{sample.link_rpy}}" xyz="{{sample.link_xyz}}"/>
+      <mass value="{{sample.link_mass}}"/>
+      <inertia ixx="{{sample.link_ixx}}" ixy="{{sample.link_ixy}}" ixz="{{sample.link_ixz}}" iyy="{{sample.link_iyy}}" iyz="{{sample.link_iyz}}" izz="{{sample.link_izz}}"/>
+    </inertial>
+    {% else %}
+    <inertial>
+      <origin rpy="{{sample.link_rpy}}" xyz="{{sample.link_xyz}}"/>
+      <mass value = "0.001"/>
+      <inertia ixx="{{sample.link_ixx}}" ixy="{{sample.link_ixy}}" ixz="{{sample.link_ixz}}" iyy="{{sample.link_iyy}}" iyz="{{sample.link_iyz}}" izz="{{sample.link_izz}}"/>
+    </inertial>
+  {% endif %}
+  </link>
+ <gazebo reference="{{sample.link}}">
+    <material>Gazebo/{{sample.link_color}}</material>
+  </gazebo>
+{% endif %}
+  {% if '0' not in sample.child_link  %}
+  <joint name="{{sample.link}}_2_{{sample.child_link}}" type="{{sample.joint_type}}">
+    <parent link="{{sample.link}}"/>
+    <child link="{{sample.child_link}}"/>
+    <origin rpy="{{sample.joint_rpy}}" xyz="{{sample.joint_xyz}}"/>
+    {% if sample.joint_type != 'fixed' %}
+    <axis xyz="{{sample.joint_axis}}"/>
+    <limit effort="{{sample.joint_effort}}" lower="{{sample.joint_lower}}" upper="{{sample.joint_upper}}" velocity="{{sample.joint_velocity}}"/>
+    {% endif %}
+  </joint>
+    {% if sample.joint_type != 'fixed' %}
+    <transmission name="trans_{{sample.link}}_2_{{sample.child_link}}">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="{{sample.link}}_2_{{sample.child_link}}"> 
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor_{{sample.link}}_2_{{sample.child_link}}">
+         <hardwareInterface>EffortJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/{{robot_name}}</robotNamespace>
+    </plugin>
+  </gazebo>
+
+</robot>
+
