@@ -37,41 +37,25 @@
   <!-- {{sample.link}} -->
 
   <link name="{{sample.link}}">
-
     <collision>
-
       <origin rpy="{{sample.link_rpy}}" xyz="{{sample.link_xyz}}"/>
-
       <geometry>
-
-        <{{sample.link_size}}/>
-
+        <box size="{{sample.link_size}}"/>
       </geometry>
-
     </collision>
 
     <visual>
-
       <origin rpy="{{sample.link_rpy}}" xyz="{{sample.link_xyz}}"/>
-
       <geometry>
-
-        <{{sample.link_size}}/>
-
+        <box size="{{sample.link_size}}"/>
       </geometry>
-
       <material name="{{sample.link_color}}"/>
-
     </visual>
 
     <inertial>
-
       <origin rpy="{{sample.link_rpy}}" xyz="{{sample.link_xyz}}"/>
-
       <mass value="{{sample.link_mass}}"/>
-
       <inertia ixx="{{sample.link_ixx}}" ixy="{{sample.link_ixy}}" ixz="{{sample.link_ixz}}" iyy="{{sample.link_iyy}}" iyz="{{sample.link_iyz}}" izz="{{sample.link_izz}}"/>
-
     </inertial>
 
   </link>

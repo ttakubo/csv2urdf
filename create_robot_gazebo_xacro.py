@@ -76,4 +76,4 @@ if result.returncode != 0:
 print("Command executed successfully")
 
 #subprocess.call(cmd.strip().split(" "))
-subprocess.call(cmd)
+subprocess.call(cmd, shell=True)

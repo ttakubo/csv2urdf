@@ -23,13 +23,13 @@
     <collision>
       <origin rpy="{{sample.link_rpy}}" xyz="{{sample.link_xyz}}"/>
       <geometry>
-        <{{sample.link_size}}/>
+        <box size="{{sample.link_size}}"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="{{sample.link_rpy}}" xyz="{{sample.link_xyz}}"/>
       <geometry>
-        <{{sample.link_size}}/>
+        <box size="{{sample.link_size}}"/>
       </geometry>
       <material name="{{sample.link_color}}"/>
     </visual>
