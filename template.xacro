@@ -5,21 +5,15 @@
   <property name="pi" value="3.14159265359"/>
 
   <material name="red">
-
     <color rgba="1.0 0.0 0.0 1.0"/>
-
   </material>
 
   <material name="green">
-
     <color rgba="0.0 1.0 0.0 1.0"/>
-
   </material>
 
   <material name="blue">
-
     <color rgba="0.0 0.0 1.0 1.0"/>
-
   </material>
 
   
@@ -27,15 +21,10 @@
 {% for sample in sample_list %}
 
 {% if 'world' in sample.link %}
-
   <!-- {{sample.link}} -->
-
   <link name="{{sample.link}}"/>
-
 {% elif sample.children_num < 2 %}
-
   <!-- {{sample.link}} -->
-
   <link name="{{sample.link}}">
     <collision>
       <origin rpy="{{sample.link_rpy}}" xyz="{{sample.link_xyz}}"/>
@@ -57,31 +46,19 @@
       <mass value="{{sample.link_mass}}"/>
       <inertia ixx="{{sample.link_ixx}}" ixy="{{sample.link_ixy}}" ixz="{{sample.link_ixz}}" iyy="{{sample.link_iyy}}" iyz="{{sample.link_iyz}}" izz="{{sample.link_izz}}"/>
     </inertial>
-
   </link>
-
 {% endif %}
 
   {% if '0' not in sample.child_link  %}
-
   <joint name="{{sample.link}}_2_{{sample.child_link}}" type="{{sample.joint_type}}">
-
     <parent link="{{sample.link}}"/>
-
     <child link="{{sample.child_link}}"/>
-
     <origin rpy="{{sample.joint_rpy}}" xyz="{{sample.joint_xyz}}"/>
-
     {% if sample.joint_type != 'fixed' %}
-
     <axis xyz="{{sample.joint_axis}}"/>
-
     <limit effort="{{sample.joint_effort}}" lower="{{sample.joint_lower}}" upper="{{sample.joint_upper}}" velocity="{{sample.joint_velocity}}"/>
-
     {% endif %}
-
   </joint>
-
   {% endif %}
 
 {% endfor %}
