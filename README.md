@@ -13,9 +13,26 @@ ROS1用のプログラムはPython2で動作可能なことは確認していま
 jinja2のインストールはコマンドプロンプトで下記の通り入力すればOK.
 
     pip3 install jinja2
+
 pipのコマンドが見つからないときは下記コマンドでインストールしておく．
 
     sudo apt install python3-pip
+
+csv2urdfをダウンロードしたディレクトリに移動して、そのディレクトリに変換したいcsvファイルも置いておく。<br>
+たとえば、3dofarm.csvを使うときは、csvディレクトリからコピーしておく。<br>
+（注：引数でパス指定でcsvファイルを指定できますが、現時点では引数のパス込みで名前がついてしまいますので同じディレクトリに置いておくこと）
+````
+cd <path to csv2urdf>
+cp ./csv/3dofarm.csv ./
+````
+create_robot_csv.pyを使ってURDFファイルを生成。
+````
+python3 create_robot_csv.py 3dorarm.csv
+````
+check_urdfを使って変換が正確にされているかチェック。
+````
+check_urdf 3dofarm.urdf
+````
 
 
 
@@ -94,7 +111,7 @@ URDFの基本のリンク記載例を確認します．
 
 下図のような３自由度のマニピュレータを構成したいときを考える．
 
-![alt text](image.png)
+![alt text](img/image.png)
 
 上記ロボットのパラメータの表をcsvファイルで記載した例を示す．
 | link | child_link | link_rpy | link_xyz | link_size | link_color | link_mass | ... |
@@ -145,8 +162,8 @@ URDFのテンプレートファイルは<a href="./template.urdf">template.urdf<
 - IGN Gazeboで利用したいときの注意点：リンクサイズのx,y,zのいずれか一つでもゼロが入っているとエラーで生成されないので，小さい数字を必ず入れておいてください．
 
 
-## XACROの利用
-xacroを利用するときは，先程用意したテンプレート(template.urdf)の最初にある"robot name"を指定する場所の後ろにxacroを利用する宣言"xmlns:xacro="http://www.ros.org/wiki/xacro"を記載するだけで利用できるようになります．
+## XACROの利用 (Classic Gazeboのみ対応のタグが入っているためIGN Gazeboへ修正予定)
+xacroを利用するときは，先程用意したテンプレート(template.urdf)の最初にある"robot name"を指定する場所の後ろにxacroを利用する宣言 "xmlns:xacro="http://www.ros.org/wiki/xacro" を記載するだけで利用できるようになります．
 
 xacroファイルを作るときのテンプレートは<a href="./template.xacro">template.xacro</a>です．<br>
 
